@@ -1,25 +1,43 @@
 package com.andregoncales;
 
-public class ProductDataDTO {
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = "produtos")
+public class Produto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String product;
+
+    @Column
     private Integer quantity;
+
+    @Column
     private String price;
+
+    @Column
     private String type;
+
+    @Column
     private String industry;
+
+    @Column
     private String origin;
 
-    public ProductDataDTO() {}
+    // Getters and Setters
 
-    public ProductDataDTO(String product, Integer quantity, String price, String type, String industry, String origin) {
-        this.product = product;
-        this.quantity = quantity;
-        this.price = price;
-        this.type = type;
-        this.industry = industry;
-        this.origin = origin;
+    public Long getId() {
+        return id;
     }
 
-    // getters e setters
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getProduct() {
         return product;

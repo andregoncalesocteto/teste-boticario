@@ -15,6 +15,11 @@ import java.util.stream.Stream;
 public class JsonReaderService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ProdutoPersistenceService persistenceService;
+
+    public JsonReaderService(ProdutoPersistenceService persistenceService) {
+        this.persistenceService = persistenceService;
+    }
 
     public void loadAllJsonFiles() {
         System.out.println("*******************************************");
@@ -27,16 +32,27 @@ public class JsonReaderService {
             .map(file -> CompletableFuture.supplyAsync(() -> readJson(file)))
             .toList();
 
-        // Aguarda todos os arquivos serem processados
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
 
-        // Aqui você pode combinar os resultados ou processar cada um separadamente
         System.out.println("*******************************************");
+        System.out.println("INICIO CARGA");
+        long start = System.currentTimeMillis();
+
         futures.forEach(future -> {
             ProductListDTO produtos = future.join();
-            // Processa os produtos como quiser
+            persistenceService.salvarTodos(produtos.getData().stream()
+                .map(ProdutoMapper::toEntity)
+                .toList()
+            );
             System.out.println("Carregados: " + produtos.getData().size());
         });
+
+        long end = System.currentTimeMillis();
+        long durationMillis = end - start;
+        long minutes = durationMillis / 60000;
+        long seconds = (durationMillis % 60000) / 1000;
+        System.out.printf("Tempo de execução: %02d:%02d%n", minutes, seconds);
+        System.out.println("FIM CARGA");
         System.out.println("*******************************************");
     }
 

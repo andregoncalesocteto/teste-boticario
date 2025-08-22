@@ -28,6 +28,9 @@ seu-projeto/
 
 # O console do h2 web estará acessível em
 > http://localhost:81
+> JDBC URL: jdbc:h2:tcp://h2db:1521/opt/h2-data/teste-boticario
+> User Name: sa
+> Password: teste
 
 # Para buildar e executar a aplicação.
 > docker-compose up --build
@@ -35,7 +38,7 @@ seu-projeto/
 # Qualquer alteração que se faça no código para ter efeito no container
 
 ## Acessar o bash do container
-> docker exec -it teste-boticario bash
+> docker exec -it teste-boticario-app bash
 
 ## Recompilar usando Maven
 > mvn compile

@@ -41,17 +41,24 @@
         <version>3.1.0</version>
     </dependency>
 
-    <!-- <dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
       <version>3.1.2</version>
-    </dependency> -->
+    </dependency>
 
     <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>1.18.30</version> <!-- ou a versão mais recente -->
         <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>2.2.224</version> <!-- ou a versão mais recente -->
+        <scope>runtime</scope>
     </dependency>
   </dependencies>
 
