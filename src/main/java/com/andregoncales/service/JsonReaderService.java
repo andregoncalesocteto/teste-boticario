@@ -3,12 +3,15 @@ package com.andregoncales;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
-import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -26,7 +29,21 @@ public class JsonReaderService {
         System.out.println("JsonReaderService loadAllJsonFiles");
         System.out.println("*******************************************");
 
-        List<String> files = List.of("data_1.json", "data_2.json", "data_3.json", "data_4.json");
+        //obtém os arquivos de forma dinâmica
+        List<String> files;
+        try {
+            Resource resource = new ClassPathResource("data");
+            Path dataDir = resource.getFile().toPath();
+            try (Stream<Path> paths = Files.list(dataDir)) {
+                files = paths
+                        .filter(Files::isRegularFile)
+                        .map(path -> path.getFileName().toString())
+                        .filter(name -> name.endsWith(".json"))
+                        .collect(Collectors.toList());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao listar arquivos JSON no diretório data", e);
+        }
 
         List<CompletableFuture<ProductListDTO>> futures = files.stream()
             .map(file -> CompletableFuture.supplyAsync(() -> readJson(file)))

@@ -43,4 +43,27 @@ seu-projeto/
 ## Recompilar usando Maven
 > mvn compile
 
+# Controllers:
 
+## Consulta Produtos (Método Get):
+> http://localhost:8080/produtos
+> http://localhost:8080/produtos?product=ALG1
+> http://localhost:8080/produtos?minPrice=0.67&maxPrice=0.99
+
+    Pelo menos um filtro é obrigatório.
+    Consulta paginada.
+    Range de preço considera o campo price como String no formato $X.XX.
+
+## Cadastrar Produtos (Método Post):
+> http://localhost:8080/produtos
+
+    Payload:
+
+    {
+    "product": "ALG2",
+    "quantity": 10,
+    "price": 49.50,
+    "type": "G",
+    "industry": "Roupas",
+    "origin": "SP"
+    }
