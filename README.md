@@ -26,6 +26,9 @@ seu-projeto/
 ├── pom.xml                                        # Dependências Maven - Define bibliotecas como Spring Boot, H2, Jackson, etc.
 └── README.md                                      # Instruções de uso e setup
 
+# O console do h2 web estará acessível em
+> http://localhost:81
+
 # Para buildar e executar a aplicação.
 > docker-compose up --build
 
@@ -36,4 +39,5 @@ seu-projeto/
 
 ## Recompilar usando Maven
 > mvn compile
+
 

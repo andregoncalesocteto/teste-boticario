@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    container_name: teste-boticario
+    container_name: teste-boticario-app
     build: .
     ports:
       - "8080:8080"
@@ -11,3 +11,24 @@ services:
       - ~/.m2:/root/.m2
     environment:
       - SPRING_DEVTOOLS_REMOTE_SECRET=devsecret
+    networks:
+      - teste-boticario-net
+
+  h2db:
+    image: oscarfonts/h2
+    container_name: teste-boticario-h2db
+    ports:
+      - "1521:1521"   # Porta JDBC
+      - "81:81"       # Console web
+    environment:
+      H2_OPTIONS: "-tcp -tcpAllowOthers -web -webAllowOthers -ifNotExists"
+    volumes:
+      - h2data:/opt/h2-data
+    networks:
+      - teste-boticario-net
+
+volumes:
+  h2data:
+
+networks:
+  teste-boticario-net:
